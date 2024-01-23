@@ -16,7 +16,25 @@
         
     </head>
     <body>
-        
+        <div class='container mt-5 pt-5'>
+            <div class='col-md-6 mx-auto'>
+            <form>
+                <div class='form-group'>
+
+                    <label>Select Category</label>
+                    <select name='category' class='form-control'>
+                        
+
+                        {% for category in categories %}
+                        <option value='{{category.category_name}}'>{{category.category_name}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <button class='btn btn-danger mt-3'>Submit</button>
+            </form>
+            
+            </div>
+        </div> 
         <script src="" async defer></script>
     </body>
 </html>

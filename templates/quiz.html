@@ -1,0 +1,104 @@
+{% load static %}
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> [endif]-->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Django Quiz App</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" >
+
+        <link rel="stylesheet" href="{% static 'css/style.css' %}"/> 
+        
+    </head>
+    <body>
+        
+        <div id='app'>
+            <div class='container mt-5 pt-5'>
+            <div class='col-md-6 mx-auto'>
+                <h3>Give Quiz</h3>
+                <hr>
+                        
+                {% comment %} <div class="form-check">
+                    {% for Answer in Answers %}
+                        <p>{{Answer.question}}</p>
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                            <label class="form-check-label" for="flexRadioDefault1">
+                                {{Answer.answer}}
+                            </label>
+                    {% endfor %}
+                    
+                    <hr> 
+                </div> {% endcomment %}
+
+              <form method='POST' action='{% url "home" %}'>{% csrf_token %}
+
+                    <div class="form-check">
+                        <ol>
+                        {% for question, answers in question_with_answers.items %}
+                            
+                            <li>
+                                <p>{{ question }}</p>
+                            </li>
+                            
+                                {% for answer,flag in answers.items %}
+                                    
+                                        <input class="form-check-input" type="radio" name="Question_{{ question}}" id="answer_{{ answer }}" value="{{ answer }}">
+                                        <label class="form-check-label" for="answer_{{ answer }}">
+                                            {{ answer }}
+                                        
+                                        </label><br>
+                                   
+                                {% endfor %}
+                            
+                            <hr>
+                       
+                        {% endfor %} 
+                        </ol>
+                        <input class="btn btn-danger mt-3" type="submit" value="Submit">
+                    </div>
+                </form>
+                
+            </div>
+            </div>
+        </div>
+
+
+        {% comment %} <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js"></script>
+        <script>
+            var app=new Vue({
+                el: '#app',
+                delimiters: ['[[', ']]'],
+                data() {
+                  return {
+                    category : '{{category}}',
+                    questions : []
+                  }
+                },
+                methods : {
+                    getQuestions(){
+                        var _this = this
+                        fetch('/api/get_quiz/?category=${_this.category}')
+                        .then(response => response.json())
+                        .then(result =>{
+                            console.log(result)
+                            _this.questions=result.data
+                        })
+                    }
+                },
+                created() {
+                    this.getQuestions()
+                    this.tasks = ['do this 🐱‍🐉', 'and that 🤳'];
+                },
+              });
+              
+              app.mount('#app')
+        </script> {% endcomment %}
+
+    </body>
+</html>
